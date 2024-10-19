@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import GoogleAuth from './auth/google-auth';
+import SwipeImages from './components/swipe-images/swipte-images';
+import { gapi } from 'gapi-script';
 
-function App() {
+type Image = {
+  id: string;
+  name: string;
+  webContentLink: string;
+};
+
+const App: React.FC = () => {
+  const [images, setImages] = useState<Image[]>([]);
+
+  const listFiles = async (): Promise<void> => {
+    const response = await gapi.client.drive.files.list({
+      q: "mimeType contains 'image/'",
+      fields: 'files(id, name, webContentLink)',
+    });
+    setImages(response.result.files);
+  };
+
+  useEffect(() => {
+    const authInstance = gapi.auth2.getAuthInstance();
+    if (authInstance?.isSignedIn.get()) {
+      listFiles();
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <GoogleAuth />
+      {images.length > 0 && <SwipeImages images={images} moveImage={moveImage} />}
     </div>
   );
-}
+};
 
 export default App;
