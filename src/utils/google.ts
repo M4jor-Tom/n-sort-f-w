@@ -1,4 +1,4 @@
-const moveImage = async (fileId: string, newFolderId: string): Promise<void> => {
+export const moveImage = async (fileId: string, newFolderId: string): Promise<void> => {
     const response = await window.gapi.client.drive.files.update({
         fileId,
         addParents: newFolderId,
