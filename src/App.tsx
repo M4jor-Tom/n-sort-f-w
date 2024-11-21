@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GoogleAuth from './auth/google-auth';
 import SwipeImages from './components/swipe-images/swipte-images';
+import { moveImage } from './utils/google';
 
 declare var gapi: any;
 
