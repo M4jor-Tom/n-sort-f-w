@@ -1,40 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import GoogleAuth from './auth/google-auth';
-import SwipeImages from './components/swipe-images/swipte-images';
-import { moveImage } from './utils/google';
+import React, { useEffect } from "react";
 
 declare var gapi: any;
 
-type Image = {
-  id: string;
-  name: string;
-  webContentLink: string;
-};
-
 const App: React.FC = () => {
-  const [images, setImages] = useState<Image[]>([]);
-
-  const listFiles = async (): Promise<void> => {
-    const response = await gapi.client.drive.files.list({
-      q: "mimeType contains 'image/'",
-      fields: 'files(id, name, webContentLink)',
-    });
-    setImages(response.result.files);
-  };
-
   useEffect(() => {
-    const authInstance = gapi.auth2.getAuthInstance();
-    if (authInstance?.isSignedIn.get()) {
-      listFiles();
+    const loadGapi = () => {
+      gapi.load("client:auth2", async () => {
+        try {
+          await gapi.client.init({
+            apiKey: "YOUR_API_KEY",
+            clientId: "YOUR_CLIENT_ID.apps.googleusercontent.com",
+            discoveryDocs: [
+              "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+            ],
+            scope: "https://www.googleapis.com/auth/drive",
+          });
+          console.log("GAPI initialized");
+        } catch (error) {
+          console.error("Error initializing GAPI", error);
+        }
+      });
+    };
+
+    if (typeof gapi !== "undefined") {
+      loadGapi();
+    } else {
+      console.error("GAPI not loaded");
     }
   }, []);
 
-  return (
-    <div>
-      <GoogleAuth />
-      {images.length > 0 && <SwipeImages images={images} moveImage={moveImage} />}
-    </div>
-  );
+  return <div>Google API Example</div>;
 };
 
 export default App;
