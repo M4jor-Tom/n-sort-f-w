@@ -1,6 +1,5 @@
 
 import React from 'react';
-import TinderCard from 'react-tinder-card';
 
 type SwipeImagesProps = {
   images: { id: string; name: string; webContentLink: string }[];
@@ -18,16 +17,9 @@ const SwipeImages: React.FC<SwipeImagesProps> = ({ images, moveImage }) => {
 
   return (
     <div className="swipe-container">
-      {images.map((image) => (
-        <TinderCard key={image.id} onSwipe={(dir) => onSwipe(dir, image.id)}>
-          <div
-            style={{ backgroundImage: `url(${image.webContentLink})` }}
-            className="swipe-card"
-          >
-            <h3>{image.name}</h3>
-          </div>
-        </TinderCard>
-      ))}
+      {images.map((image) => {
+        return "tinder-card"
+      })}
     </div>
   );
 };
