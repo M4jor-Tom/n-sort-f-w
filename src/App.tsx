@@ -2,6 +2,12 @@ import React, { useEffect } from "react";
 
 declare var gapi: any;
 
+type Image = {
+  id: string;
+  name: string;
+  webContentLink: string;
+};
+
 const App: React.FC = () => {
   useEffect(() => {
     const loadGapi = () => {
