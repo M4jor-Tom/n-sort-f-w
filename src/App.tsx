@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import GoogleAuth from './auth/google-auth';
 import SwipeImages from './components/swipe-images/swipte-images';
-import { gapi } from 'gapi-script';
+
+declare var gapi: any;
 
 type Image = {
   id: string;

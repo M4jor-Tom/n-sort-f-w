@@ -1,4 +1,4 @@
-import { gapi } from 'gapi-script';
+declare var gapi: any;
 
 export const listFiles = async (): Promise<void> => {
     const response = await gapi.client.drive.files.list({

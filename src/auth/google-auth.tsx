@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { gapi } from 'gapi-script';
+
+declare var gapi: any;
 
 const CLIENT_ID = '<YOUR_CLIENT_ID>';
 const API_KEY = '<YOUR_API_KEY>';

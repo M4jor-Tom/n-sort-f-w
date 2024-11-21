@@ -1,4 +1,4 @@
-import { gapi } from 'gapi-script';
+declare var gapi: any;
 
 export const moveImage = async (fileId: string, newFolderId: string): Promise<void> => {
     const response = await gapi.client.drive.files.update({
