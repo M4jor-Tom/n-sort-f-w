@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GoogleAuth from './auth/google-auth';
 import SwipeImages from './components/swipe-images/swipte-images';
-import { moveImage } from './utils/google';
-
-// Load gapi from a script tag and declare it for use
-declare global {
-  interface Window {
-    gapi: any;
-  }
-}
-
+import { gapi } from 'gapi-script';
 
 type Image = {
   id: string;
@@ -21,7 +13,7 @@ const App: React.FC = () => {
   const [images, setImages] = useState<Image[]>([]);
 
   const listFiles = async (): Promise<void> => {
-    const response = await window.gapi.client.drive.files.list({
+    const response = await gapi.client.drive.files.list({
       q: "mimeType contains 'image/'",
       fields: 'files(id, name, webContentLink)',
     });
@@ -29,7 +21,7 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    const authInstance = window.gapi.auth2.getAuthInstance();
+    const authInstance = gapi.auth2.getAuthInstance();
     if (authInstance?.isSignedIn.get()) {
       listFiles();
     }
