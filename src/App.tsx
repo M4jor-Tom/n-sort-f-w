@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import SwipeImages from "./components/swipe-images/swipte-images";
 
 declare var gapi: any;
 
@@ -9,6 +10,9 @@ type Image = {
 };
 
 const App: React.FC = () => {
+
+  const [images, setImages] = useState<Image[]>([]);
+
   useEffect(() => {
     const loadGapi = () => {
       gapi.load("client:auth2", async () => {
@@ -35,7 +39,11 @@ const App: React.FC = () => {
     }
   }, []);
 
-  return <div>Google API Example</div>;
+  return (
+    <div>
+      {images.length > 0 && <SwipeImages images={images} moveImage={() => {}} />}
+    </div>
+  );
 };
 
 export default App;
